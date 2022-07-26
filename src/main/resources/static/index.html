@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Sample</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <p>Hello Work task list</p>
+
+    <form action="/task/add" method="post">
+        <div>
+            <label for="name">Enter task: </label>
+            <input type="text" name="task" id="task" required>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+    <div id="app">
+        <p>All tasks:</p>
+        <ul>
+            <li v-for="task in tasks">
+                {{ task.task }}
+            </li>
+        </ul>
+
+        <script>
+            const { createApp } = Vue
+            createApp({
+
+                data() {
+                    return {
+                        tasks: []
+                    }
+                },
+
+                mounted() {
+                    axios.get('/task/all').then(response => (this.tasks = response.data))
+                }
+
+            }).mount('#app')
+        </script>
+
+</body>
+
+</html>
